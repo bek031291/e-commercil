@@ -1,0 +1,191 @@
+definitions:
+  api.Login:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  api.User:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      is_active:
+        type: boolean
+      keycloak_id:
+        type: string
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+  models.Product:
+    properties:
+      brand:
+        type: string
+      category_id:
+        type: integer
+      description:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+    type: object
+info:
+  contact: {}
+  description: Минимальная e-commerce платформа на Go
+  title: Ecommerce API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Регистрирует нового пользователя
+      parameters:
+      - description: Данные пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/api.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Регистрация пользователя
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Регистрирует нового пользователя
+      parameters:
+      - description: Данные пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/api.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Регистрация пользователя
+      tags:
+      - auth
+  /products/create:
+    post:
+      consumes:
+      - application/json
+      description: Создает новый продукт
+      parameters:
+      - description: Данные пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Создание продукта
+      tags:
+      - products
+  /products/delete:
+    get:
+      consumes:
+      - application/json
+      description: удаления по id
+      parameters:
+      - description: удалить по id
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: удалитӣ по id
+      tags:
+      - products
+  /products/get-all:
+    get:
+      consumes:
+      - application/json
+      description: Создает новый продукт
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: Создание продукта
+      tags:
+      - products
+  /products/id:
+    get:
+      consumes:
+      - application/json
+      description: гирифтани продукт бо id
+      parameters:
+      - description: Фильтр по бренду
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: барои гирифтани продукт бо id
+      tags:
+      - products
+  /products/update:
+    put:
+      consumes:
+      - application/json
+      description: гирифтани продукт бо id
+      parameters:
+      - description: Фильтр по бренду
+        in: query
+        name: id
+        type: string
+      - description: Обновленные данные продукта
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/models.Product'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      summary: барои гирифтани продукт бо id
+      tags:
+      - products
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
